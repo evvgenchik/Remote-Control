@@ -1,22 +1,39 @@
 {
-    "name": "ws_task",
-    "version": "1.0.0",
-    "description": "Template for the WebSocket remote control task",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "start": "node ./index.js",
-        "start:dev": "nodemon ./index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "Andrei Auchynnikau",
-    "keywords": [],
-    "license": "ISC",
-    "devDependencies": {
-        "nodemon": "^2.0.16"
-    },
-    "dependencies": {
-        "@nut-tree/nut-js": "^2.3.0",
-        "ws": "^8.8.0"
-    }
+  "name": "ws_task",
+  "version": "1.0.0",
+  "description": "Template for the WebSocket remote control task",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./index.js",
+    "start:dev": "nodemon",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix && prettier --write"
+  },
+  "author": "Andrei Auchynnikau",
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.1.0",
+    "@types/ws": "^8.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@nut-tree/nut-js": "^2.3.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "jimp": "^0.22.8",
+    "ts-node": "^10.9.1",
+    "ws": "^8.13.0"
+  }
 }
