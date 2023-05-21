@@ -1,10 +1,5 @@
 import { WebSocket } from 'ws';
-import { mouse } from '@nut-tree/nut-js';
-
-const getCoordinate = async () => {
-  console.log(mouse.getPosition());
-  return mouse.getPosition();
-};
+import { getCoordinate } from '../utils/helper.js';
 
 const mouseHandler = async (command: string, ws: WebSocket) => {
   const { x, y } = await getCoordinate();

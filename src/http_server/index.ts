@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
 import { AddressInfo, WebSocketServer } from 'ws';
-import commandController from '../controller/commandHandler.js';
+import commandController from '../controller/commandController.js';
 
 export const httpServer = http.createServer((req, res) => {
   const dirname = path.resolve(path.dirname(''));
