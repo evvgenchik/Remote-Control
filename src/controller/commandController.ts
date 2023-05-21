@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import mouseHandler from '../handlers/mouseHandler.js';
+import { mouseHandler, mousePosition } from '../handlers/mouseHandler.js';
 import { squareDrawer, rectangularDrawer, circleDrawer } from '../handlers/drawers.js';
 
 const commandController = (reqCommand: string, ws: WebSocket) => {
@@ -7,7 +7,19 @@ const commandController = (reqCommand: string, ws: WebSocket) => {
 
   switch (command) {
     case 'mouse_position':
-      mouseHandler(command, ws);
+      mousePosition(command, ws);
+      break;
+    case 'mouse_up':
+      mouseHandler(command, width, ws);
+      break;
+    case 'mouse_down':
+      mouseHandler(command, width, ws);
+      break;
+    case 'mouse_left':
+      mouseHandler(command, width, ws);
+      break;
+    case 'mouse_right':
+      mouseHandler(command, width, ws);
       break;
     case 'draw_square':
       squareDrawer(command, +width, ws);
