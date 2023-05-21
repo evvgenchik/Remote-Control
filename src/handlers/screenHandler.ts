@@ -1,6 +1,6 @@
-import { FileType, Region, screen } from '@nut-tree/nut-js';
+import Jimp from 'jimp';
+import { Image, Region, screen } from '@nut-tree/nut-js';
 import { WebSocket } from 'ws';
-import fs from 'fs';
 import { getCoordinate } from '../utils/helper.js';
 
 const getScreenshotRefion = async () => {
@@ -16,13 +16,25 @@ const getScreenshotRefion = async () => {
   return regionToCapture;
 };
 
+const imageConverter = async (icon: Image) => {
+  const iconObj = await icon.toRGB();
+
+  const iconJimp = new Jimp(iconObj, (err: Error) => {
+    if (err) console.log('Error with icon JIMP');
+  });
+
+  const iconBuffer = await iconJimp.getBufferAsync(Jimp.MIME_PNG);
+  const iconBase64 = iconBuffer.toString('base64');
+
+  return iconBase64;
+};
+
 const screenHandler = async (ws: WebSocket) => {
   const regionToCapture = await getScreenshotRefion();
-  await screen.captureRegion('bord', regionToCapture, FileType.PNG, './');
+  const iconObjBgr = await screen.grabRegion(regionToCapture);
+  const icon = await imageConverter(iconObjBgr);
 
-  const file = await fs.promises.readFile('./bord.png', { encoding: 'base64' });
-
-  ws.send(`prnt_scrn ${file}`);
+  ws.send(`prnt_scrn ${icon}`);
 };
 
 export default screenHandler;
