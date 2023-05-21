@@ -38,7 +38,7 @@ wss.on('connection', function connection(ws) {
   ws.on('error', console.error);
 
   ws.on('message', async function message(data) {
-    console.log('received: %s', data);
+    console.log('Server received command:', data);
     commandController(data.toString(), ws);
   });
 });

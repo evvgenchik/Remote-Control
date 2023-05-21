@@ -33,6 +33,8 @@ const commandController = (reqCommand: string, ws: WebSocket) => {
     default:
       console.log('No such command');
   }
+
+  console.log(`Server completed commnad: ${command} ${width ?? ''} ${length ?? ''}`);
 };
 
 export default commandController;
