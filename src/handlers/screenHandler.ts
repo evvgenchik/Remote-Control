@@ -30,11 +30,15 @@ const imageConverter = async (icon: Image) => {
 };
 
 const screenHandler = async (ws: WebSocket) => {
-  const regionToCapture = await getScreenshotRefion();
-  const iconObjBgr = await screen.grabRegion(regionToCapture);
-  const icon = await imageConverter(iconObjBgr);
+  try {
+    const regionToCapture = await getScreenshotRefion();
+    const iconObjBgr = await screen.grabRegion(regionToCapture);
+    const icon = await imageConverter(iconObjBgr);
 
-  ws.send(`prnt_scrn ${icon}`);
+    ws.send(`prnt_scrn ${icon}`);
+  } catch (err: unknown) {
+    console.log(err);
+  }
 };
 
 export default screenHandler;
