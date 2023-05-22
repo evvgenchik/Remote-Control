@@ -1,3 +1,4 @@
+import internal from 'stream';
 import Jimp from 'jimp';
 import { Image, Region, screen } from '@nut-tree/nut-js';
 import { WebSocket } from 'ws';
@@ -29,13 +30,13 @@ const imageConverter = async (icon: Image) => {
   return iconBase64;
 };
 
-const screenHandler = async (ws: WebSocket) => {
+const screenHandler = async (stream: internal.Duplex) => {
   try {
     const regionToCapture = await getScreenshotRefion();
     const iconObjBgr = await screen.grabRegion(regionToCapture);
     const icon = await imageConverter(iconObjBgr);
 
-    ws.send(`prnt_scrn ${icon}`);
+    stream.write(`prnt_scrn ${icon}`);
   } catch (err: unknown) {
     console.log(err);
   }

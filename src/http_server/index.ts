@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
-import { AddressInfo, WebSocketServer } from 'ws';
+import { AddressInfo, WebSocket, WebSocketServer, createWebSocketStream } from 'ws';
 import commandController from '../controller/commandController.js';
 
 export const httpServer = http.createServer((req, res) => {
@@ -37,14 +37,16 @@ wss.on('listening', () => {
 wss.on('connection', function connection(ws) {
   ws.on('error', console.error);
 
-  ws.on('message', async function message(data) {
-    console.log('Server received command: %s', data);
-    commandController(data.toString(), ws);
+  const duplex = createWebSocketStream(ws, { decodeStrings: false });
+
+  duplex.on('data', (chunk) => {
+    commandController(chunk.toString(), duplex);
   });
 });
 
 process.on('SIGINT', () => {
-  wss.close();
+  console.log('Socket and server closed');
+  // wss.close();
   httpServer.close();
 });
 
