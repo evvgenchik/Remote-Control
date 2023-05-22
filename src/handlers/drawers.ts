@@ -1,10 +1,7 @@
-import internal from 'stream';
-import { WebSocket } from 'ws';
 import { Button, Point, down, left, mouse, right, up } from '@nut-tree/nut-js';
-import { getCoordinate } from '../utils/helper.js';
+import getCoordinate from '../utils/helper.js';
 
-const squareDrawer = async (command: string, width: number, stream: internal.Duplex) => {
-  const { x, y } = await getCoordinate();
+const squareDrawer = async (width: number) => {
   await mouse.pressButton(Button.LEFT);
   await mouse.move(down(width));
   await mouse.move(right(width));
@@ -13,13 +10,7 @@ const squareDrawer = async (command: string, width: number, stream: internal.Dup
   await mouse.releaseButton(Button.LEFT);
 };
 
-const rectangularDrawer = async (
-  command: string,
-  width: number,
-  length: number,
-  stream: internal.Duplex,
-) => {
-  const { x, y } = await getCoordinate();
+const rectangularDrawer = async (width: number, length: number) => {
   await mouse.pressButton(Button.LEFT);
   await mouse.move(down(length));
   await mouse.move(right(width));
@@ -28,7 +19,7 @@ const rectangularDrawer = async (
   await mouse.releaseButton(Button.LEFT);
 };
 
-const circleDrawer = async (command: string, radius: number, stream: internal.Duplex) => {
+const circleDrawer = async (radius: number) => {
   const { x, y } = await getCoordinate();
   const arrCoordinates = [];
 

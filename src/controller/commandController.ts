@@ -8,7 +8,7 @@ const commandController = (reqCommand: string, stream: internal.Duplex) => {
 
   switch (command) {
     case 'mouse_position':
-      mousePosition(command, stream);
+      mousePosition(stream);
       break;
     case 'mouse_up':
       mouseHandler(command, width);
@@ -23,13 +23,13 @@ const commandController = (reqCommand: string, stream: internal.Duplex) => {
       mouseHandler(command, width);
       break;
     case 'draw_square':
-      squareDrawer(command, +width, stream);
+      squareDrawer(+width);
       break;
     case 'draw_rectangle':
-      rectangularDrawer(command, +width, +length, stream);
+      rectangularDrawer(+width, +length);
       break;
     case 'draw_circle':
-      circleDrawer(command, +width, stream);
+      circleDrawer(+width);
       break;
     case 'prnt_scrn':
       screenHandler(stream);

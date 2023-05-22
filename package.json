@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./index.js",
+    "start": "node ./src/index.js",
     "start:dev": "nodemon",
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix && prettier --write"

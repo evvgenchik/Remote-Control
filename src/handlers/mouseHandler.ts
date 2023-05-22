@@ -1,7 +1,6 @@
 import internal from 'stream';
 import { down, left, mouse, right, up } from '@nut-tree/nut-js';
-import { WebSocket } from 'ws';
-import { getCoordinate } from '../utils/helper.js';
+import getCoordinate from '../utils/helper.js';
 
 type MouseMover = {
   mouse_up(y: number): Promise<void>;
@@ -25,7 +24,7 @@ const mouseMover = {
   },
 };
 
-const mousePosition = async (command: string, stream: internal.Duplex) => {
+const mousePosition = async (stream: internal.Duplex) => {
   const { x, y } = await getCoordinate();
   stream.write(`mouse_position ${x},${y}`);
 };

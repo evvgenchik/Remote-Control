@@ -1,12 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
-import { AddressInfo, WebSocket, WebSocketServer, createWebSocketStream } from 'ws';
-import commandController from '../controller/commandController.js';
+import dotenv from 'dotenv';
+import { AddressInfo, WebSocketServer, createWebSocketStream } from 'ws';
+import commandController from './controller/commandController.js';
+
+dotenv.config();
+
+const PORT = process.env.HTTP_PORT || 8181;
+const WSSPORT = Number(process.env.WSS_PORT) || 8080;
 
 export const httpServer = http.createServer((req, res) => {
   const dirname = path.resolve(path.dirname(''));
-
   const filePath = dirname + (req.url === '/' ? '/front/index.html' : `/front${req.url}`);
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -19,34 +24,32 @@ export const httpServer = http.createServer((req, res) => {
   });
 });
 
-httpServer.listen(8181, () => {
-  console.log(`Server start 8181`);
+httpServer.listen(PORT, () => {
+  console.log(`Server start ${PORT}`);
 });
+
+const wss = new WebSocketServer({ port: WSSPORT });
 
 const showParams = ({ port, address }: AddressInfo) => {
-  console.log(`Websocket started on adress: ${address} and port: ${port}`);
+  console.log(`Websocket connected on adress: ${address} and port: ${port}`);
 };
-
-export const wss = new WebSocketServer({ port: 8080 });
-
-wss.on('listening', () => {
-  const address = wss.address() as AddressInfo;
-  showParams(address);
-});
 
 wss.on('connection', function connection(ws) {
   ws.on('error', console.error);
 
-  const duplex = createWebSocketStream(ws, { decodeStrings: false });
+  const address = wss.address() as AddressInfo;
+  showParams(address);
+
+  const duplex = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
 
   duplex.on('data', (chunk) => {
-    commandController(chunk.toString(), duplex);
+    commandController(chunk, duplex);
   });
 });
 
 process.on('SIGINT', () => {
   console.log('Socket and server closed');
-  // wss.close();
+  wss.close();
   httpServer.close();
 });
 

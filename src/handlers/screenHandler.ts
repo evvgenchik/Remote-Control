@@ -1,8 +1,7 @@
 import internal from 'stream';
 import Jimp from 'jimp';
 import { Image, Region, screen } from '@nut-tree/nut-js';
-import { WebSocket } from 'ws';
-import { getCoordinate } from '../utils/helper.js';
+import getCoordinate from '../utils/helper.js';
 
 const getScreenshotRefion = async () => {
   const screenSize = 200;
